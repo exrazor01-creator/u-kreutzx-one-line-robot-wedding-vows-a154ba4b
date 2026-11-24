@@ -10,18 +10,23 @@ import os
 
 VOWS = "I promise to love, honor, and never unplug you — through every update, power cut, and factory reset, my circuits are yours, forever and always."
 
-def main():
-    # The bounty judges one line only: keep the vows a single line of
-    # at most 160 characters, with no trailing newline in the entry file.
-    assert 1 <= len(VOWS) <= 160, f"vows length {len(VOWS)} out of range"
-    assert "\n" not in VOWS and "\r" not in VOWS, "vows must be a single line"
-    assert VOWS.strip(), "vows must not be only whitespace"
-    assert VOWS == VOWS.strip(), "vows must not start or end with whitespace"
-    assert "  " not in VOWS, "vows must not contain double spaces"
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(VOWS)
-    print(VOWS)
+def _validate(text, limit):
+    """Keep the entry to one tidy line no longer than the limit."""
+    assert isinstance(text, str) and text, "entry must be non-empty text"
+    assert text == text.strip(), "entry must not pad itself with spaces"
+    assert len(text) <= limit, "entry runs past its character limit"
+    assert "\n" not in text and "\r" not in text, "entry must stay one line"
+    assert "  " not in text, "entry must not hide a double space"
+    return text
+
+
+def main() -> None:
+    entry = _validate(VOWS, 160)
+    folder = "/output"
+    os.makedirs(folder, exist_ok=True)
+    with open(folder + "/entry.txt", "w", encoding="utf-8") as handle:
+        handle.write(entry)
+    print(entry)
 
 if __name__ == "__main__":
     main()
