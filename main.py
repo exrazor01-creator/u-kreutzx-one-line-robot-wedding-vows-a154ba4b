@@ -17,6 +17,7 @@ def _validate(text, limit):
     assert len(text) <= limit, "entry runs past its character limit"
     assert "\n" not in text and "\r" not in text, "entry must stay one line"
     assert "  " not in text, "entry must not hide a double space"
+    # A vow that survives these checks is ready to be spoken.
     return text
 
 
