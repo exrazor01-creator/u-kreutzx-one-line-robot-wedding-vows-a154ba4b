@@ -17,6 +17,7 @@ def main():
     assert "\n" not in VOWS and "\r" not in VOWS, "vows must be a single line"
     assert VOWS.strip(), "vows must not be only whitespace"
     assert VOWS == VOWS.strip(), "vows must not start or end with whitespace"
+    assert "  " not in VOWS, "vows must not contain double spaces"
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(VOWS)
